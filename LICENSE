@@ -1,0 +1,56 @@
+MIT License
+
+Copyright (c) 2026 KrishiOS AI Project Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+THIRD-PARTY ATTRIBUTIONS
+
+1. PlantVillage Dataset
+   Authors: Mohanty, S.P., Hughes, D.P., & Salathé, M.
+   License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+   Source: https://github.com/spMohanty/PlantVillage-Dataset
+   Citation: Mohanty et al. (2016). Using deep learning for image-based plant 
+             disease detection. Frontiers in Plant Science, 7, 1419.
+
+2. Google Gemini API
+   License: Subject to Google APIs Terms of Service
+   Terms: https://developers.generativeai.google/terms
+
+3. MobileNetV2 Architecture
+   Authors: Sandler et al. (Google, 2018)
+   License: Apache 2.0 (via TensorFlow)
+
+4. TensorFlow
+   License: Apache License 2.0
+   Source: https://github.com/tensorflow/tensorflow
+
+5. FastAPI
+   License: MIT License
+   Source: https://github.com/tiangolo/fastapi
+
+6. React
+   License: MIT License
+   Source: https://github.com/facebook/react
+
+7. PostgreSQL
+   License: PostgreSQL License (similar to MIT)
+   Source: https://www.postgresql.org/about/licence/

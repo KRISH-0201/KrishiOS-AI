@@ -1,0 +1,21 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+passlib[bcrypt]
+python-jose[cryptography]
+pydantic[email]
+pydantic-settings
+alembic
+pytest
+httpx
+python-multipart
+bcrypt==3.2.2
+# ML / Model inference dependencies
+torch>=2.0.0
+torchvision>=0.15.0
+pillow>=9.0.0
+opencv-python-headless
+numpy>=1.23.0
+segmentation-models-pytorch
+ultralytics

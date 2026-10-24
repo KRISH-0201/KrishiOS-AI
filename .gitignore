@@ -1,0 +1,63 @@
+# ==========================================
+# KrishiOS AI — Git Ignore Rules
+# ==========================================
+
+# Personal documentation (Excluded per user instruction)
+docs/
+DATASET_INSPECTION_REPORT.md
+
+# Massive Datasets (Never commit raw datasets to git)
+plantvillage dataset/
+*.zip
+*.tar
+*.gz
+
+# Secrets, Environment Files & Keys (CRITICAL: Do not expose)
+.env
+*.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Python Environments & Caches
+venv/
+backend/venv/
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+backend/.pytest_cache/
+
+# Local Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/krishios_local.db
+
+# Node & Frontend Build Artifacts
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.oxlintcache/
+
+# IDE & OS Artifacts
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
+
+# Research scripts pointing to removed external datasets
+research/
+
+# Old batch scripts referencing removed supervisor datasets
+backend/run_scan.bat
+backend/run_segregate.bat
+backend/run_fix_duplicates.bat
+backend/run_train.bat
+backend/run_train_eggplant.bat
+backend/run_train_yolo.bat

@@ -1,0 +1,11 @@
+{
+  "test_accuracy": 0.9983,
+  "test_top3_accuracy": 0.9994,
+  "macro_f1": 0.9983,
+  "macro_precision": 0.9983,
+  "macro_recall": 0.9983,
+  "best_validation_loss": 0.0138,
+  "best_validation_accuracy": 0.9961,
+  "total_training_epochs_executed": 15,
+  "best_epoch": 14
+}
