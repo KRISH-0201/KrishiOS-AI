@@ -5,6 +5,7 @@
 # Personal documentation (Excluded per user instruction)
 docs/
 DATASET_INSPECTION_REPORT.md
+PROJECT_EXPLANATION_GUIDE_HINGLISH.md
 
 # Massive Datasets (Never commit raw datasets to git)
 plantvillage dataset/

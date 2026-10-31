@@ -23,6 +23,7 @@
     0.1
   ],
   "random_seed": 42,
+  "weights_sha256": "d5bcc4efec1c16e686951ed01e3474eaf337b5d79981fc78f6bb26841067b619",
   "framework": "PyTorch 2.11.0+cu128",
   "torchvision_version": "0.26.0+cu128",
   "training_date": "2026-10-24 07:16:22 UTC",

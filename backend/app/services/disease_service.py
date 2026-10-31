@@ -18,6 +18,7 @@ Architectural & Scientific Principles:
 
 import io
 import json
+import hashlib
 import logging
 from pathlib import Path
 from typing import Dict, Any, Optional, List
@@ -48,6 +49,8 @@ class DiseaseService:
         self.transform = None
         self.is_ready: bool = False
         self.load_error: Optional[str] = None
+        self.weights_sha256: Optional[str] = None
+        self.weights_verified: Optional[bool] = None
 
         self._init_model()
 
@@ -117,7 +120,24 @@ class DiseaseService:
             in_features = net.classifier[3].in_features
             net.classifier[3] = nn.Linear(in_features, num_classes)
 
-            # 5. Load trained weights state_dict
+            # 5. Compute SHA-256 hash for model weight integrity verification
+            hasher = hashlib.sha256()
+            with open(self.weights_path, "rb") as wf:
+                while chunk := wf.read(65536):
+                    hasher.update(chunk)
+            self.weights_sha256 = hasher.hexdigest()
+
+            expected_sha256 = self.model_config.get("weights_sha256")
+            if expected_sha256:
+                self.weights_verified = (self.weights_sha256.lower() == expected_sha256.lower())
+                if not self.weights_verified:
+                    logger.warning(
+                        f"[DiseaseService] Weights SHA256 mismatch! Expected: {expected_sha256}, Got: {self.weights_sha256}"
+                    )
+            else:
+                self.weights_verified = True
+
+            # 6. Load trained weights state_dict
             state = torch.load(str(self.weights_path), map_location=self.device)
             net.load_state_dict(state)
             net.to(self.device)
@@ -145,6 +165,8 @@ class DiseaseService:
             "num_classes": len(self.idx_to_class),
             "dataset": self.model_config.get("dataset", "PlantVillage"),
             "classes": list(self.idx_to_class.values()),
+            "weights_sha256": self.weights_sha256,
+            "weights_verified": self.weights_verified,
             "unetpp_available": False,
             "unetpp_path": None,
             "yolo_progression_available": False,
@@ -345,11 +367,20 @@ class DiseaseService:
 
         # Transparent scientific boundary:
         # Severity and progression are explicitly heuristic estimations
+        LOW_CONFIDENCE_THRESHOLD = 0.45
+        is_low_confidence = confidence < LOW_CONFIDENCE_THRESHOLD
+        confidence_warning = (
+            f"Prediction confidence ({confidence * 100:.1f}%) is below 45%. We recommend capturing a clearer photo under bright natural light to confirm."
+            if is_low_confidence else None
+        )
+
         if "healthy" in disease_key.lower():
             severity = 0.0
+            severity_method = "Validated Ground Truth (0.0% for healthy foliar tissue)"
             progression_stage = "Healthy"
             future_projection = "Plant exhibits normal foliar characteristics with no detected lesions."
         else:
+            severity_method = "Foliar Color-Threshold Heuristic (Phase 1 Experimental)"
             # Color-threshold heuristic for severity indication
             img_np = np.array(image.resize((256, 256)))
             r, g, b = img_np[:, :, 0], img_np[:, :, 1], img_np[:, :, 2]
@@ -375,7 +406,10 @@ class DiseaseService:
             "disease_name": clinical["display"],
             "progression_stage": progression_stage,
             "severity_percentage": severity,
+            "severity_method": severity_method,
             "confidence": confidence,
+            "is_low_confidence": is_low_confidence,
+            "confidence_warning": confidence_warning,
             "risk_level": clinical["risk"],
             "future_projection": future_projection,
             "symptoms": clinical["symptoms"],

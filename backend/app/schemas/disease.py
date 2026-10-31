@@ -14,6 +14,9 @@ class DiseasePredictionResponse(BaseModel):
     chemical_treatment: str
     preventive_measures: List[str]
     detections: Optional[List[dict]] = None
+    severity_method: Optional[str] = "Color-threshold heuristic (Phase 1)"
+    is_low_confidence: Optional[bool] = False
+    confidence_warning: Optional[str] = None
 
 class ModelStatusResponse(BaseModel):
     tomato_classifier_available: Optional[bool] = None
@@ -22,6 +25,8 @@ class ModelStatusResponse(BaseModel):
     num_classes: Optional[int] = None
     dataset: Optional[str] = None
     classes: Optional[List[str]] = None
+    weights_sha256: Optional[str] = None
+    weights_verified: Optional[bool] = None
     unetpp_available: bool = False
     unetpp_path: Optional[str] = None
     yolo_progression_available: bool = False

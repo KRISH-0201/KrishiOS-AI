@@ -11,11 +11,13 @@ pytest
 httpx
 python-multipart
 bcrypt==3.2.2
-# ML / Model inference dependencies
+# Phase 1 Active ML / Model Inference Dependencies
 torch>=2.0.0
 torchvision>=0.15.0
 pillow>=9.0.0
 opencv-python-headless
 numpy>=1.23.0
-segmentation-models-pytorch
-ultralytics
+
+# Phase 2 Optional / Experimental Modules (Lesion Segmentation & Foliar Bounding Boxes)
+segmentation-models-pytorch>=0.3.0
+ultralytics>=8.0.0

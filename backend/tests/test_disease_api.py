@@ -37,6 +37,8 @@ def test_models_status_endpoint():
     assert len(validated.classes) == 10
     assert "Tomato___Early_blight" in validated.classes
     assert "Tomato___healthy" in validated.classes
+    assert validated.weights_sha256 is not None
+    assert validated.weights_verified is True
 
 
 def test_valid_synthetic_tomato_leaf_inference():
@@ -156,3 +158,28 @@ def test_never_silent_fallback_when_model_offline():
     finally:
         # Restore service state
         disease_service.is_ready = original_state
+
+
+def test_oversized_image_upload_rejected():
+    """Test POST /api/v1/disease/predict with file > 10MB returns 413 Payload Too Large."""
+    oversized_bytes = b"0" * (10 * 1024 * 1024 + 512 * 1024)
+    files = {"file": ("huge.jpg", oversized_bytes, "image/jpeg")}
+    response = client.post("/api/v1/disease/predict", files=files, data={"crop_type": "tomato"})
+    assert response.status_code == 413
+    assert "too large" in response.json()["detail"].lower()
+
+
+def test_confidence_warning_and_severity_metadata():
+    """Test response schema contains low-confidence flag and severity method metadata."""
+    img = Image.new("RGB", (256, 256), color=(45, 140, 50))
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG")
+    buf.seek(0)
+
+    files = {"file": ("synthetic_leaf.jpg", buf.getvalue(), "image/jpeg")}
+    response = client.post("/api/v1/disease/predict", files=files, data={"crop_type": "tomato"})
+    assert response.status_code == 200
+    data = response.json()
+    assert "severity_method" in data
+    assert "is_low_confidence" in data
+    assert isinstance(data["is_low_confidence"], bool)
